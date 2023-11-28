@@ -1,6 +1,6 @@
 # alu-web-development
 
-Welcome to the "alx-web-development" repository! This repository contains my projects and assignments for the ALU School web development curriculum.
+Welcome to the "alU-web-development" repository! This repository contains my projects and assignments for the ALU School web development curriculum.
 
 ## Table of Contents
 
