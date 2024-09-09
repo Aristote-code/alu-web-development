@@ -18,10 +18,8 @@ class LFUCache(BaseCaching):
         """Add an item in the cache"""
         if key is None or item is None:
             return
-
         if len(self.cache_data) >= BaseCaching.MAX_ITEMS and key not in self.cache_data:
             self._discard_least_frequent()
-
         self.cache_data[key] = item
         self.frequency[key] += 1
         self._update_usage_order(key)
