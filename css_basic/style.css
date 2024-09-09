@@ -1,0 +1,25 @@
+body{
+    display:flex;
+    flex-direction: column;
+   justify-content: space-between;
+   background-color: beige;
+   height: 100vh;
+   margin: auto;
+}
+main{
+    display: flex;
+}
+article{
+    flex:2;
+    overflow-y: auto;
+}
+aside{
+    flex:1;
+    overflow-y: auto;
+}
+footer{
+    background-color:cadetblue;
+}
+header{
+    background-color:cadetblue;
+}

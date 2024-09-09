@@ -1,0 +1,248 @@
+body{
+    background-color: black;
+    /* padding-left: 175px;
+    padding-right: 169px; */
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: white;
+    margin: auto;
+
+}
+.header{
+    display: flex;
+    color: white;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+    padding-left: 175px;
+    padding-right: 169px;
+    background-color: gray;
+
+
+}
+.links{
+    display: flex;
+    gap: 53px;
+}
+.hero{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+   
+}
+.description{
+    display: flex;
+    flex-direction: row;
+   
+    gap:59px;
+    font-size: 16px;
+    font-weight: bold;
+
+    
+}
+.get{
+    font-size: 120px;
+    font-weight: bold
+}
+.button1{
+    background-color: #C271FF;
+    border-radius: 22px;
+padding: 12px;
+color: white;
+font-weight: 600;
+border: none;
+
+}
+.word{
+    color:#C271FF;
+}
+.learn{
+font-size: 32px;
+text-align: center;
+}
+.name{
+    font-size:18px;
+    font-weight: 900;
+}
+.award{
+    font-style: italic;
+    font-size: 16px;
+
+}
+.image{
+    width: 150px;
+    width: 150px;
+    border-radius: 100%;
+   
+}
+.cards{
+    display:flex;
+    flex-direction: row;
+   gap: 139px;
+}
+.card{
+    display: flex;
+    flex-direction:column;
+    gap: 30px;
+    margin-top: 100px;
+    padding-left: 175px;
+    padding-right: 169px;
+    padding-bottom: 64px;
+}
+.testimonial{
+    display: flex;
+    flex-direction: row;
+    background-color: #C271FF;
+    gap: 46px;
+    padding-left: 175px;
+    padding-right: 169px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+.tutorials{
+font-size: 32px;
+font-weight: bold;
+text-align: center;
+}
+.popular{
+    color:#C271FF;
+}
+.ratings{
+    display: flex;
+    flex-direction: row;
+ 
+    justify-content: space-between;
+
+}
+.author{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+.video{
+    width:255px;
+    height:154px
+}
+.round{
+ 
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+}
+.videos{
+    display: flex;
+    flex-direction: row;
+    gap: 44px;
+    margin-top: 44px;
+}
+.star{
+    width:105px;
+    height:30px;
+}
+.ratingtext{
+    color: #C271FF;
+}
+.video-section{
+    background-color: white;
+    color: black;
+    padding-left: 175px;
+    padding-right: 169px;
+    padding-top: 54px;
+    padding-bottom: 75px;
+}
+.phil{
+    color: #C271FF;
+}
+.mtext{
+   font-size: 32px;
+   font-weight: bold;
+   text-align: center; 
+}
+.free{
+    color: #C271FF;  
+}
+.lorem{
+    font-size: 18px;
+}
+.lorem-desrciption{
+font-size: 14px;
+
+}
+.smiley{
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+
+}
+.membership{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+gap: 45px;
+background-color: #071629;
+padding: 65px;
+padding-left: 175px;
+padding-right: 169px;
+}
+.faq{
+    color: #071629;
+    font-size: 60px;
+    font-weight: 300;
+    text-align: center;
+}
+.ftitle{
+    font-size: 16px;
+    font-weight: 700px;
+}
+.fdescr{
+    font-size:14px ;
+    font-weight: 400;
+}
+.fcard{
+    display: flex;
+    flex-direction: row;
+    gap:54px;
+}
+
+.faq-section{
+    background-color: white;
+    color:black;
+    padding-left: 175px;
+    padding-right: 169px;
+    padding-top: 34px;
+    padding-bottom: 75px;
+    gap:54px;
+
+
+   
+}
+.footer{
+    background-color: #071629;
+    padding-top: 44px;
+    padding-bottom: 44px;
+    padding-left: 175px;
+    padding-right: 169px;
+
+}
+.footer-logo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.copyright{
+    font-size:12px;
+    font-weight: 400;
+    text-align: center;
+   
+}
+.social-icons{
+    display: flex ;
+    flex-direction: row;
+    gap: 24px;
+}
+.hero-section{
+    background-image: url(/background.png);
+  
+}
