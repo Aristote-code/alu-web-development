@@ -56,3 +56,9 @@ class LFUCache(BaseCaching):
         del self.frequency[discard_key]
         del self.usage_order[discard_key]
         print(f"DISCARD: {discard_key}")
+
+    def print_cache(self):
+        """Print the current cache"""
+        print("Current cache:")
+        for key, value in self.cache_data.items():
+            print(f"{key}: {value}")
