@@ -27,9 +27,9 @@ class LFUCache(BaseCaching):
         else:
             if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
                 self._evict()
-            # Add the new item with initial frequency 1
+            # Add the new item with initial frequency 0
             self.cache_data[key] = item
-            self.frequency[key] = 1
+            self.frequency[key] = 0  # Start frequency at 0
             self.usage_order[key] = None  # Insert key at the end
 
     def get(self, key):
@@ -49,7 +49,9 @@ class LFUCache(BaseCaching):
         # Find the minimum frequency among all keys
         min_freq = min(self.frequency.values())
         # Identify all keys with the minimum frequency
-        min_freq_keys = [k for k in self.usage_order if self.frequency[k] == min_freq]
+        min_freq_keys = [
+            k for k in self.usage_order if self.frequency[k] == min_freq
+        ]
         # The first key in usage_order among min_freq_keys is the LRU
         discard_key = min_freq_keys[0]
         # Remove the item from all tracking structures
