@@ -20,17 +20,18 @@ class LFUCache(BaseCaching):
             return
 
         if key in self.cache_data:
-            # Update the item without changing frequency
+            # Update the item and increase frequency
             self.cache_data[key] = item
-            # Update usage order
-            self.usage_order.move_to_end(key)
+            self.frequency[key] += 1
         else:
             if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
                 self._evict()
-            # Add the new item with initial frequency 0
+            # Add the new item with initial frequency 1
             self.cache_data[key] = item
-            self.frequency[key] = 0  # Start frequency at 0
-            self.usage_order[key] = None  # Insert key at the end
+            self.frequency[key] = 1
+        # Update usage order
+        self.usage_order[key] = None  # Insert or move key to the end
+        self.usage_order.move_to_end(key)
 
     def get(self, key):
         """ Retrieve an item by key """
