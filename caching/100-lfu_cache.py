@@ -35,9 +35,9 @@ class LFUCache(BaseCaching):
             if len(self.cache_data) >= self.MAX_ITEMS:
                 self._evict()
             self.cache_data[key] = item
-            self.frequency[key] = 1
+            self.frequency[key] = 0  # Start frequency at 0
             self.usage_order[key] = None
-            self._update_frequency(key)
+        self._update_frequency(key)  # Always update frequency
 
     def get(self, key):
         """
