@@ -20,33 +20,26 @@ class LFUCache(BaseCaching):
             return
 
         if key in self.cache_data:
-            # Update the item
+            # Update the item without changing frequency
             self.cache_data[key] = item
-            # Update frequency and usage order
-            self._update_frequency(key)
+            # Update usage order
+            self.usage_order.move_to_end(key)
         else:
             if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
                 self._evict()
-            # Add the new item with initial frequency 0
+            # Add the new item with initial frequency 1
             self.cache_data[key] = item
-            self.frequency[key] = 0
-            self.usage_order[key] = None
-            # Update frequency and usage order
-            self._update_frequency(key)
+            self.frequency[key] = 1
+            self.usage_order[key] = None  # Insert key at the end
 
     def get(self, key):
         """ Retrieve an item by key """
         if key is None or key not in self.cache_data:
             return None
-        # Update frequency and usage order
-        self._update_frequency(key)
-        return self.cache_data[key]
-
-    def _update_frequency(self, key):
-        """ Update the frequency and usage order of a key """
+        # Increment frequency and update usage order
         self.frequency[key] += 1
-        # Move the key to the end to maintain LRU order
         self.usage_order.move_to_end(key)
+        return self.cache_data[key]
 
     def _evict(self):
         """
@@ -56,9 +49,7 @@ class LFUCache(BaseCaching):
         # Find the minimum frequency among all keys
         min_freq = min(self.frequency.values())
         # Identify all keys with the minimum frequency
-        min_freq_keys = [
-            k for k in self.usage_order if self.frequency[k] == min_freq
-        ]
+        min_freq_keys = [k for k in self.usage_order if self.frequency[k] == min_freq]
         # The first key in usage_order among min_freq_keys is the LRU
         discard_key = min_freq_keys[0]
         # Remove the item from all tracking structures
