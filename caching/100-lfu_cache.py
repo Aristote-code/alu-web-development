@@ -30,7 +30,7 @@ class LFUCache(BaseCaching):
             self.cache_data[key] = item
             self.frequency[key] = 1
         # Update usage order
-        self.usage_order[key] = None  # Insert or move key to the end
+        self.usage_order[key] = None
         self.usage_order.move_to_end(key)
 
     def get(self, key):
@@ -49,7 +49,7 @@ class LFUCache(BaseCaching):
         """
         # Find the minimum frequency among all keys
         min_freq = min(self.frequency.values())
-        # Identify all keys with the minimum frequency
+        # Identify keys with the minimum frequency
         min_freq_keys = [
             k for k in self.usage_order if self.frequency[k] == min_freq
         ]
