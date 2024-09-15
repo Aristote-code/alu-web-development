@@ -11,6 +11,7 @@ def status() -> str:
     Return:
       - the status of the API
     """
+    print("Status endpoint called")  # Add this line for debugging
     return jsonify({"status": "OK"})
 
 
