@@ -3,6 +3,7 @@
 """
 import hashlib
 from models.base import Base
+from typing import List, TypeVar
 
 
 class User(Base):
@@ -59,7 +60,7 @@ class User(Base):
             return "{} {}".format(self.first_name, self.last_name)
 
     @classmethod
-    def search(cls, attributes: dict = {}) -> List[TypeVar('Base')]:
+    def search(cls, attributes: dict = {}) -> List[Base]:
         """ Search all objects with matching attributes
         """
         return super().search(attributes)
