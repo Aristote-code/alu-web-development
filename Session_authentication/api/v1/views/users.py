@@ -129,6 +129,11 @@ def update_user(user_id: str = None) -> str:
 
 @app_views.route('/users/me', methods=['GET'], strict_slashes=False)
 def get_current_user():
+    """ GET /api/v1/users/me
+    Return:
+      - User object JSON represented
+      - 404 if the current user is not authenticated
+    """
     current_user = request.current_user
     if current_user is None:
         abort(404)
