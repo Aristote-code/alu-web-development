@@ -57,3 +57,9 @@ class User(Base):
             return "{}".format(self.last_name)
         else:
             return "{} {}".format(self.first_name, self.last_name)
+
+    @classmethod
+    def search(cls, attributes: dict = {}) -> List[TypeVar('Base')]:
+        """ Search all objects with matching attributes
+        """
+        return super().search(attributes)
