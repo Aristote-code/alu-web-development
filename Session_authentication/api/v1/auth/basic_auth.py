@@ -44,7 +44,7 @@ class BasicAuth(Auth):
     def extract_user_credentials(
             self,
             decoded_base64_authorization_header: str
-            ) -> tuple[str, str]:
+            ) -> (str, str):
         """extract user credentials"""
         if decoded_base64_authorization_header is None:
             return None, None
@@ -58,28 +58,25 @@ class BasicAuth(Auth):
             self,
             user_email: str,
             user_pwd: str
-            ) -> User:
-        """Returns the User instance based on email and password."""
-        if user_email is None or not isinstance(user_email, str):
+            ) -> TypeVar('User'):
+        """user object from credentials"""
+        if user_email is None or type(user_email) is not str:
             return None
-        if user_pwd is None or not isinstance(user_pwd, str):
+        if user_pwd is None or type(user_pwd) is not str:
             return None
 
-        try:
-            users = User.search({'email': user_email})
-        except Exception:
-            return None
+        users = User.search({'email': user_email})
 
         if not users:
             return None
-
+        if users is None or len(users) == 0:
+            return None
         for user in users:
             if user.is_valid_password(user_pwd):
                 return user
-
         return None
 
-    def current_user(self, request=None) -> User:
+    def current_user(self, request=None) -> TypeVar('User'):
         """current user"""
         header = self.authorization_header(request)
         if header is None:
@@ -87,11 +84,14 @@ class BasicAuth(Auth):
         b64 = self.extract_base64_authorization_header(header)
         if b64 is None:
             return None
-        decoded = self.decode_base64_authorization_header(b64)
+        decoded = self.decode_base64_authorization_header(
+            b64)
         if decoded is None:
             return None
-        user_info = self.extract_user_credentials(decoded)
+        user_info = self.extract_user_credentials(
+            decoded)
         if user_info is None:
             return None
         email, pwd = user_info
-        return self.user_object_from_credentials(email, pwd)
+        user = self.user_object_from_credentials(email, pwd)
+        return user

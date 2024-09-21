@@ -1,25 +1,28 @@
 #!/usr/bin/python3
-"""LIFO cache"""
-
+"""Create LIFOCache class that inherits from BaseCaching"""
 BaseCaching = __import__('base_caching').BaseCaching
 
 
 class LIFOCache(BaseCaching):
-    """LIFO cache"""
+    """ Define LIFOCache """
+
+    def __init__(self):
+        """ Initialize LIFOCache """
+        self.stack = []
+        super().__init__()
 
     def put(self, key, item):
-        """Add an item in the cache"""
-        if key is None or item is None:
-            return
-        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-            if key not in self.cache_data:
-                discard = next(reversed(list(self.cache_data)))
-                print("DISCARD: {}".format(discard))
-                del self.cache_data[discard]
-        self.cache_data[key] = item
+        """ Assign the item to the dictionary """
+        if key and item:
+            if self.cache_data.get(key):
+                self.stack.remove(key)
+            while len(self.stack) >= self.MAX_ITEMS:
+                delete = self.stack.pop()
+                self.cache_data.pop(delete)
+                print('DISCARD: {}'.format(delete))
+            self.stack.append(key)
+            self.cache_data[key] = item
 
     def get(self, key):
-        """Get an item by key"""
-        if key is None or key not in self.cache_data:
-            return None
-        return self.cache_data[key]
+        """ Return the value associated with the given key """
+        return self.cache_data.get(key)

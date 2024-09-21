@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
-""" Create user, Find user, Update user """
+""" db class """
+
 from sqlalchemy import create_engine
-from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm.exc import NoResultFound
-from typing import TypeVar
 from user import Base, User
+from sqlalchemy.exc import InvalidRequestError
 
 
 class DB:
-    """ class DBn of storing databases"""
+    """ DB class """
+
     def __init__(self):
-        """ constructor """
         self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
@@ -20,37 +19,33 @@ class DB:
 
     @property
     def _session(self):
-        """ create a session """
         if self.__session is None:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
-        """ save the user to the database and returns a User object """
+        """ add user method """
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
         return user
 
     def find_user_by(self, **kwargs) -> User:
-        """ takes in arbitrary keyword arguments and returns the first row
-            found in the users table as filtered by the method’s input
-            arguments """
-        if kwargs is None:
+        """ DB.find_user_by method"""
+        if not kwargs:
             raise InvalidRequestError
-        user = self._session.query(User).filter_by(**kwargs).first()
-        if user is None:
-            raise NoResultFound
-        return user
+        for key in kwargs:
+            if not hasattr(User, key):
+                raise InvalidRequestError
+        return self._session.query(User).filter_by(**kwargs).one()
 
     def update_user(self, user_id: int, **kwargs) -> None:
-        """ locate the user to update, then will update the user’s attributes
-            as passed in the method’s arguments then commit changes to the
-            database """
-        _id = self.find_user_by(id=user_id)
+        """ DB.update_user method """
+        user = self.find_user_by(id=user_id)
         for key, value in kwargs.items():
-            if not hasattr(_id, key):
+            if not hasattr(user, key):
                 raise ValueError
-            setattr(_id, key, value)
+            setattr(user, key, value)
         self._session.commit()
+        return None

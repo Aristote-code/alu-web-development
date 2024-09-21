@@ -1,68 +1,50 @@
 #!/usr/bin/python3
-""" LFU Caching """
-
-from base_caching import BaseCaching
-from collections import OrderedDict
+"""
+LFUCache class that inherits from BaseCaching and is a caching system
+"""
+BaseCaching = __import__('base_caching').BaseCaching
 
 
 class LFUCache(BaseCaching):
-    """ LFU Cache class with LRU tie-breaker """
+    """ Define LFUCache """
 
     def __init__(self):
-        """ Initialize the LFUCache """
+        """ Initialize LFUCache """
+        self.queue = []
+        self.lfu = {}
         super().__init__()
-        self.frequency = {}
-        self.usage_order = OrderedDict()
 
     def put(self, key, item):
-        """ Add an item to the cache """
-        if key is None or item is None:
-            return
+        """ Assign the item to the dictionary """
+        if key and item:
+            if (len(self.queue) >= self.MAX_ITEMS and
+                    not self.cache_data.get(key)):
+                delete = self.queue.pop(0)
+                self.lfu.pop(delete)
+                self.cache_data.pop(delete)
+                print('DISCARD: {}'.format(delete))
 
-        if key in self.cache_data:
-            # Update the item and increase frequency
+            if self.cache_data.get(key):
+                self.queue.remove(key)
+                self.lfu[key] += 1
+            else:
+                self.lfu[key] = 0
+
+            insert_index = 0
+            while (insert_index < len(self.queue) and
+                   not self.lfu[self.queue[insert_index]]):
+                insert_index += 1
+            self.queue.insert(insert_index, key)
             self.cache_data[key] = item
-            self.frequency[key] += 1
-        else:
-            if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-                self._evict()
-            # Add the new item with initial frequency 1
-            self.cache_data[key] = item
-            self.frequency[key] = 1
-        # Update usage order
-        self.usage_order[key] = None
-        self.usage_order.move_to_end(key)
 
     def get(self, key):
-        """ Retrieve an item by key """
-        if key is None or key not in self.cache_data:
-            return None
-        # Increment frequency and update usage order
-        self.frequency[key] += 1
-        self.usage_order.move_to_end(key)
-        return self.cache_data[key]
-
-    def _evict(self):
-        """
-        Evict the least frequently used item.
-        If there's a tie, evict the least recently used item among them.
-        """
-        # Find the minimum frequency among all keys
-        min_freq = min(self.frequency.values())
-        # Identify keys with the minimum frequency
-        min_freq_keys = [
-            k for k in self.usage_order if self.frequency[k] == min_freq
-        ]
-        # The first key in usage_order among min_freq_keys is the LRU
-        discard_key = min_freq_keys[0]
-        # Remove the item from all tracking structures
-        del self.cache_data[discard_key]
-        del self.frequency[discard_key]
-        del self.usage_order[discard_key]
-        print(f"DISCARD: {discard_key}")
-
-    def print_cache(self):
-        """ Print the current cache """
-        print("Current cache:")
-        for key in self.cache_data:
-            print(f"{key}: {self.cache_data[key]}")
+        """ Return the value associated with the given key """
+        if self.cache_data.get(key):
+            self.lfu[key] += 1
+            if self.queue.index(key) + 1 != len(self.queue):
+                while (self.queue.index(key) + 1 < len(self.queue) and
+                       self.lfu[key] >=
+                       self.lfu[self.queue[self.queue.index(key) + 1]]):
+                    self.queue.insert(self.queue.index(key) + 1,
+                                      self.queue.pop(self.queue.index(key)))
+        return self.cache_data.get(key)
